@@ -51,6 +51,6 @@ public class Task15SolutionTest {
         int[] nums = {-1,0,1,0};
         List<List<Integer>> result= new ArrayList<>();
         result.add(new ArrayList<>(Arrays.asList(-1,0,1)));
-        assertThat(solution.threeSum(nums),is(empty()));
+        assertThat(solution.threeSum(nums), is(equalTo(result)));
     }
 }
