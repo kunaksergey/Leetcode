@@ -1,7 +1,5 @@
 package com.home.task56;
 
-import java.util.Arrays;
-
 //56. Merge Intervals
 public class Task56Solution {
     public int[][] merge(int[][] intervals) {
