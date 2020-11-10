@@ -3,7 +3,7 @@ package com.home.task17;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//7. Letter Combinations of a Phone Number
+//17. Letter Combinations of a Phone Number
 public class Task17Solution {
 
     public List<String> letterCombinations(String digits) {

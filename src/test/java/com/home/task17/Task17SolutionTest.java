@@ -25,8 +25,8 @@ public class Task17SolutionTest {
     @Test
     public void test2() {
         String digits = "";
-        String [] result = {};
-        assertThat(solution.letterCombinations(digits).toArray().length, is(0));
+        int result = 0;
+        assertThat(solution.letterCombinations(digits).toArray().length, is(result));
     }
 
     @Test
