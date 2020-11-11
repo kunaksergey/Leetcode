@@ -3,14 +3,12 @@ package com.home.task70;
 //70. Climbing Stairs
 public class Task70Solution {
     public int climbStairs(int n) {
-          int result = 0;
-        if (n >= 1) {
-            result = result + 1 + climbStairs(n - 1);
-
+        int[] tmp = new int[Math.max(2, n)];
+        tmp[0] = 1;
+        tmp[1] = 2;
+        for (int i = 2; i < tmp.length; i++) {
+            tmp[i] = tmp[i - 1] + tmp[i - 2];
         }
-        if (n >= 2) {
-            result = result + 1 + climbStairs(n - 2);
-        }
-        return result;
+        return tmp[n - 1];
     }
 }
