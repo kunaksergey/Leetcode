@@ -22,7 +22,6 @@ public class Task84Solution {
                             } else {
                                 break;
                             }
-
                         }
                     }
                     max = Math.max(max,currentMax);
