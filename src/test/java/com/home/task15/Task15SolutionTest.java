@@ -85,6 +85,6 @@ public class Task15SolutionTest {
         result.add(new ArrayList<>(Arrays.asList(-3,0,3)));
         result.add(new ArrayList<>(Arrays.asList(-2,0,2)));
         result.add(new ArrayList<>(Arrays.asList(-1,0,1)));
-        assertThat(solution.threeSum(nums), is(equalTo(result)));
+        assertThat(solution.threeSum(nums),  containsInAnyOrder(result.toArray()));
     }
 }
