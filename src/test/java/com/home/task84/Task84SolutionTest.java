@@ -21,4 +21,27 @@ public class Task84SolutionTest {
         int result = 10;
         assertThat(solution.largestRectangleArea(input), is(result));
     }
+
+    @Test
+    public void test2() {
+        int [] input = {};
+        int result = 0;
+        assertThat(solution.largestRectangleArea(input), is(result));
+    }
+
+    @Test
+    public void test3() {
+        int [] input = {1};
+        int result = 1;
+        assertThat(solution.largestRectangleArea(input), is(result));
+    }
+
+    @Test
+    public void test4() {
+        int [] input = {0,0,0,0,0,0,0,0,2147483647};
+        int result = 2147483647;
+        assertThat(solution.largestRectangleArea(input), is(result));
+    }
+
+
 }
