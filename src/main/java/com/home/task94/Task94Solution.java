@@ -10,15 +10,26 @@ public class Task94Solution {
 
         public List<Integer> inorderTraversal(TreeNode root) {
             List<Integer> result = new ArrayList<>();
-            if(root!=null){
-                result.add(root.val);
+            if(root==null){
+                return result;
             }
+
+            result.add(root.val);
+
             if(root.left!=null){
                 result.addAll(inorderTraversal(root.left));
+                if(result.get(0)<result.get(1)){
+                    Integer tmp = result.get(0);
+                    result.set(0,result.get(1));
+                    result.set(1,tmp);
+                }
             }
+
+
             if(root.right!=null){
-                result.addAll(inorderTraversal(root.right));
+            result.addAll(inorderTraversal(root.right));
             }
+
             return result;
         }
 }

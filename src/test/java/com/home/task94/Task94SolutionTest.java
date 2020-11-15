@@ -56,5 +56,12 @@ public class Task94SolutionTest {
         assertThat(solution.inorderTraversal(input), is(equalTo(result)));
     }
 
+    @Test
+    public void test6() {
+          TreeNode input = new TreeNode(2, new TreeNode(3, new TreeNode(1), null), null);
+        List<Integer> result = new ArrayList<>(Arrays.asList(1,3,2));
+        assertThat(solution.inorderTraversal(input), is(equalTo(result)));
+    }
+
 
 }
