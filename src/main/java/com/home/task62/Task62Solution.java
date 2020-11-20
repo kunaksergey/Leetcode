@@ -1,5 +1,7 @@
 package com.home.task62;
 
+import com.home.core.ArrayHolder;
+
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -39,37 +41,6 @@ public class Task62Solution {
             store.put(arrayHolder,value);
         }
         return value;
-    }
-
-    public static final class ArrayHolder<T> {
-
-        private final T[] t;
-
-        public ArrayHolder(T[] t) {
-            this.t = t;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 23 * hash + Arrays.hashCode(this.t);
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final ArrayHolder<T> other = (ArrayHolder<T>) obj;
-            if (!Arrays.equals(this.t, other.t)) {
-                return false;
-            }
-            return true;
-        }
     }
 
 }
