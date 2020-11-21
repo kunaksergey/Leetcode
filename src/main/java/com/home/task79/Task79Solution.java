@@ -1,15 +1,13 @@
 package com.home.task79;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 // 79. Word Search
 public class Task79Solution {
     public boolean exist(char[][] board, String word) {
-      if(word.length()>board.length*board[0].length) return false;
+      if(!isValid(board, word)) return false;
+
        char firstLetter = word.charAt(0);
         for (int i = 0; i <board.length ; i++) {
             for (int j = 0; j <board[i].length ; j++) {
@@ -23,6 +21,51 @@ public class Task79Solution {
             }
         }
         return false;
+    }
+
+    private boolean isValid(char[][] board, String word) {
+        if( word.length()>board.length*board[0].length) return false;
+        Map<Character, Integer> boardMap = convertTo(board);
+        Map<Character, Integer> wordMap = convertTo(word);
+        for(Map.Entry<Character, Integer> entry: wordMap.entrySet()){
+            Character key = entry.getKey();
+            if(!boardMap.containsKey(key)){
+                return false;
+            }
+            if(entry.getValue()>boardMap.get(key)){
+                return false;
+            }
+        }
+        return  true;
+    }
+
+    private Map<Character, Integer> convertTo(char[][] board) {
+        Map<Character, Integer> converted = new HashMap<>();
+        for (int i = 0; i <board.length ; i++) {
+            for (int j = 0; j <board[i].length ; j++) {
+                Character character = board[i][j];
+                if(!converted.containsKey(character)){
+                    converted.put(character,0);
+                }
+                Integer currentValue = converted.get(character);
+                converted.put(character, currentValue++);
+            }
+        }
+        return converted;
+    }
+
+    private Map<Character, Integer> convertTo(String word) {
+        Map<Character, Integer> converted = new HashMap<>();
+        for (int i = 0; i <word.length() ; i++) {
+                Character character = word.charAt(i);
+                if(!converted.containsKey(character)){
+                    converted.put(character,0);
+                }
+                Integer currentValue = converted.get(character);
+                converted.put(character, currentValue++);
+
+        }
+        return converted;
     }
 
     boolean exist(char[][] board, String word, int[]startPosition, HashSet<ArrayHolder<Integer>> store){
