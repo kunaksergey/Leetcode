@@ -1,177 +1,65 @@
 package com.home.task76;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 
-// 76. Minimum Window Substring
 public class Task76Solution {
     public String minWindow(String s, String t) {
-        String str = trim(s, t);
+        if(s.contains(t)) return t;
+        return findWindow(s, 0, s.length(), t ,true);
+    }
 
-        SummaryWindowProcessor summaryWindowProcesor = new SummaryWindowProcessor(t);
-        for (int i = 0; i < str.length(); i++) {
-            char character = str.charAt(i);
-            summaryWindowProcesor.handleCharacter(character, i);
+    public String findWindow(String s, int startIndex, int endIndex, String t, boolean deepFind) {
+        if(t.length()>s.length()){
+            return "";
+        }
+        int [] arr = new int[t.length()];
+        StringBuilder tTmp = new StringBuilder(t);
+        int count = t.length();
+        Arrays.fill(arr,-1);
+
+        int leftIndex = Integer.MAX_VALUE;
+        int rightIndex = Integer.MIN_VALUE;;
+
+        for (int i = startIndex; i <endIndex ; i++) {
+            String letter = ""+s.charAt(i);
+            int tTmpIndex = tTmp.indexOf(letter);
+
+            // found letter in the word
+            if(tTmpIndex!=-1){
+                arr[tTmpIndex] = i;
+                count--;
+                tTmp.setCharAt(tTmpIndex,'_');
+                leftIndex = Math.min(leftIndex, i);
+                rightIndex = Math.max(rightIndex, i);
+            }
+            // finded all letters
+            if(count==0) {
+                break;
+            }
         }
 
-        //get result
-        int[] minRange = summaryWindowProcesor.getMinRange();
         String result = "";
-
-        if (minRange[0] !=-1 && minRange[1] != -1) {
-            result = str.substring(minRange[0], minRange[1] + 1);
+        //move window
+        if (count==0 && deepFind) { // found
+            result = s.substring(leftIndex, rightIndex + 1);
+            int nextStartIndex = leftIndex + 1;
+            int nextEndIndex = rightIndex + 1;
+            nextEndIndex = Math.min(nextEndIndex, s.length());
+            String nextResult = "";
+            while(nextStartIndex<=s.length()-t.length()) {
+//                String next = s.substring(nextStartIndex, nextEndIndex+1);
+                nextResult = findWindow(s,nextStartIndex,  nextEndIndex, t, false);
+                if(nextResult!=""){
+                    result = result.length() < nextResult.length() ? result : nextResult;
+                }
+                nextStartIndex++;
+                nextEndIndex = Math.min(nextEndIndex+1, s.length());
+            }
+        }else if(count==0){
+            result = s.substring(leftIndex, rightIndex+1);
         }
-
         return result;
     }
 
-    private String trim(String s, String t) {
-        int beginIndex = 0;
-        int endIndex = s.length() - 1;
-
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (t.indexOf(c)!=-1) {
-                beginIndex = i;
-                break;
-            }
-        }
-
-        for (int i = s.length() - 1; i >= 0; i--) {
-            char c = s.charAt(i);
-            if (t.indexOf(c)!=-1) {
-                endIndex = i;
-                break;
-            }
-        }
-        return s.substring(beginIndex, endIndex + 1);
-    }
-
-
-    // handler
-    private static class SummaryWindowProcessor {
-        private String window;
-        private List<WindowProcessor> windowProcessorList;
-
-        SummaryWindowProcessor(String window) {
-            this.window = window;
-            this.windowProcessorList = new ArrayList<>();
-        }
-
-
-        int[] getMinRange() {
-            List<int[]> processedRangeList = new ArrayList<>();
-            int[] minRange = {-1,-1};
-            for (WindowProcessor item : windowProcessorList) {
-                if (item.processed()) {
-                    int[] processedRange = item.getProcessedRange();
-                    if(minRange[0]==-1 && minRange[1]==-1){
-                        minRange = processedRange;
-                    }else{
-                        if ((processedRange[1] - processedRange[0]) < (minRange[1] - minRange[0])) {
-                            minRange = processedRange;
-                        }
-                    }
-
-                    processedRangeList.add(item.getProcessedRange());
-                }
-            }
-            return minRange;
-        }
-
-        void handleCharacter(Character character, int index) {
-            if (this.window.indexOf(character)==-1) {
-                return;
-            }
-            windowProcessorList.add(new WindowProcessor(window.toCharArray(), index));
-            for (WindowProcessor processor : windowProcessorList) {
-                if (processor.processed()) {
-                    continue;
-                }
-                processor.handle(character, index);
-            }
-        }
-
-        private static class WindowProcessor {
-            private Map<Character, Integer> charMap;
-            private Range range;
-            private boolean processed;
-
-            WindowProcessor(char[] chars, int index) {
-                charMap = createCharMap(chars);
-                range = new Range(index);
-                processed = false;
-            }
-
-            private boolean hasCharacter(Character character) {
-                return charMap.containsKey(character);
-            }
-
-            private boolean processed() {
-                if (!processed) {
-                    int summ = 0;
-                    for (int value : charMap.values()) {
-                        summ += value;
-                    }
-                    processed = summ == 0;
-
-                }
-                return processed;
-            }
-
-            void handle(Character character, int index) {
-                Integer count = charMap.get(character);
-                count = count - 1 >= 0 ? count - 1 : 0;
-                charMap.put(character, count);
-                if (processed()) {
-                    this.range.close(index);
-                }
-            }
-
-            private Map<Character, Integer> createCharMap(char[] chars) {
-                Map<Character, Integer> characterMap = new HashMap<>();
-                for (int i = 0; i < chars.length; i++) {
-                    if (!characterMap.containsKey(chars[i])) {
-                        characterMap.put(chars[i], 0);
-                    }
-                    Integer count = characterMap.get(chars[i]);
-                    characterMap.put(chars[i], ++count);
-                }
-                return characterMap;
-            }
-
-            int[] getProcessedRange() {
-                return this.range.getRange();
-            }
-
-            private static class Range {
-                private int startIndex;
-                private int endIndex;
-
-                Range(int startIndex) {
-                    this.startIndex = startIndex;
-                    this.endIndex = -1;
-                }
-
-                Range(int startIndex, int endIndex) {
-                    this.startIndex = startIndex;
-                    this.endIndex = endIndex;
-                }
-
-                public void close(int endIndex) {
-                    this.endIndex = endIndex;
-                }
-
-                boolean closed() {
-                    return startIndex != -1 && endIndex != -1;
-                }
-
-                int[] getRange() {
-                    return new int[]{startIndex, endIndex};
-                }
-            }
-        }
-    }
 }
+
