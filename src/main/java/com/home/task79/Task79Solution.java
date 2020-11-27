@@ -1,6 +1,8 @@
 package com.home.task79;
 
 
+import com.home.core.ArrayHolder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -36,7 +38,7 @@ public class Task79Solution {
         return false;
     }
 
-    boolean exist(char[][] board, String word, int[] currentPosition, HashSet<ArrayHolder<Integer>> store) {
+    private boolean exist(char[][] board, String word, int[] currentPosition, HashSet<ArrayHolder<Integer>> store) {
         ArrayHolder<Integer> convertedCurrentPosition = convert(currentPosition);
         if (word.length() == 0) {
             return false;
@@ -92,37 +94,5 @@ public class Task79Solution {
     private ArrayHolder<Integer> convert(int[] arr) {
         return new ArrayHolder<>(Arrays.stream(arr).boxed().toArray(Integer[]::new));
     }
-
-    private static class ArrayHolder<T> {
-
-        private final T[] t;
-
-        public ArrayHolder(T[] t) {
-            this.t = t;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 23 * hash + Arrays.hashCode(this.t);
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            ArrayHolder<T> other = (ArrayHolder<T>) obj;
-            if (!Arrays.equals(this.t, other.t)) {
-                return false;
-            }
-            return true;
-        }
-    }
-
-
 }
+
