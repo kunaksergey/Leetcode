@@ -3,7 +3,7 @@ package com.home.task98;
 import com.home.core.TreeNode;
 
 import java.util.*;
-
+// 98. Validate Binary Search Tree
 public class Task98Solution {
     private boolean isValidBST = true;
     public boolean isValidBST(TreeNode root) {
