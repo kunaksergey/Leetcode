@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import static com.home.core.FileReader.readLineByLineJava8;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -141,7 +142,7 @@ public class Task76SolutionTest {
         assertThat(solution.minWindow(s, t), is(equalTo(result)));
     }
 
-   // @Test
+    //@Test
     public void test20() {
         String s = readLineByLineJava8("E:\\LeetcodeGit\\src\\test\\java\\com\\home\\task76\\input").trim();
 
@@ -150,18 +151,6 @@ public class Task76SolutionTest {
         assertThat(solution.minWindow(s, t), is(equalTo(result)));
     }
 
-
-    private static String readLineByLineJava8(String filePath) {
-        StringBuilder contentBuilder = new StringBuilder();
-
-        try (Stream<String> stream = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8)) {
-            stream.forEach(s -> contentBuilder.append(s).append("\n"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return contentBuilder.toString();
-    }
 
     @Test
     public void test21() {
