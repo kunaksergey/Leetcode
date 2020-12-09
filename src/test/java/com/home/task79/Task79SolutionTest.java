@@ -62,4 +62,12 @@ public class Task79SolutionTest {
         boolean result = true;
         assertThat(solution.exist(input, word), is(result));
     }
+
+    @Test
+    public void test7() {
+        char[][] input = {{'a','b'}, {'c','d'}};
+        String word = "acdb";
+        boolean result = true;
+        assertThat(solution.exist(input, word), is(result));
     }
+}
